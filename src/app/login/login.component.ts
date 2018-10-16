@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {User} from '../model/user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import {User} from '../model/user';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -30,6 +31,6 @@ export class LoginComponent implements OnInit {
   onSubmit()  {
     const user = new User(this.loginForm.get('email').value, this.loginForm.get('password').value);
     this.authService.signInUser(user);
+    this.router.navigateByUrl('/dashboard');
   }
-
 }
