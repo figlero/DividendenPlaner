@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +10,20 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class HeaderComponent implements OnInit {
   searchForm: FormGroup;
 
-  constructor() { }
+  constructor(private authService: AuthService) {
+  }
 
-  ngOnInit() {
+    ngOnInit() {
     this.searchForm = new FormGroup({
         search: new FormControl('')
     });
   }
 
+  onLogout()  {
+    this.authService.logOut();
+  }
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
+  }
 }

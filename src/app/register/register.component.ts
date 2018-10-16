@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {User} from '../model/user';
+import {Router, RouterModule} from '@angular/router';
+
+declare function registerModal(): any;
+declare function exitModal(): any;
 
 @Component({
   selector: 'app-register',
@@ -10,8 +14,9 @@ import {User} from '../model/user';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  alert: ElementRef;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({
@@ -25,8 +30,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit()  {
-    const user = new User(this.registerForm.get('email').value, this.registerForm.get('password').value);
+   const user = new User(this.registerForm.get('email').value, this.registerForm.get('password').value);
     this.authService.signUpUser(user);
+    registerModal();
   }
 
+  goToLogin() {
+    exitModal();
+    this.router.navigateByUrl('/login');
+  }
 }
