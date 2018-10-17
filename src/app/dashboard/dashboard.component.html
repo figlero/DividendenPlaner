@@ -2,46 +2,44 @@
   <h3>Dashboard</h3>
   <hr>
   <div class="row justify-content-center">
-    <div class="card-deck">
-      <div class="card" style="min-width: 22rem">
+    <div class="card-deck" style="width: 100%">
+      <div class="col-lg-4 no-padding">
+      <div class="card">
         <div class="card-header">
           <h5>Dividendenrendite</h5>
         </div>
         <div class="card-body text-center">
           <p class="card-text"><span class="display-4">&Oslash; 3.5%</span></p>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
       </div>
-      <div class="card" style="min-width: 22rem">
+    </div>
+    <div class="col-lg-4 no-padding">
+      <div class="card">
         <div class="card-header">
           <h5>Dividendenrendite persönlich</h5>
         </div>
         <div class="card-body text-center">
           <p class="card-text"><span class="display-4">&Oslash; 3.5%</span></p>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
       </div>
-      <div class="card" style="min-width: 22rem">
+    </div>
+    <div class="col-lg-4 no-padding">
+      <div class="card">
         <div class="card-header">
           <h5>Depotwert</h5>
         </div>
         <div class="card-body text-center">
           <p class="card-text"><span class="display-4">300.000€</span></p>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
       </div>
+    </div>
   </div>
-</div>
+  </div>
 <hr>
   <div class="row justify-content-center">
-    <div class="card-deck">
-      <div class="card" style="min-width: 34rem">
+    <div class="card-deck" style="width: 100%">
+      <div class="col-lg-5 no-padding">
+      <div class="card">
         <div class="card-header">
           <h5>Positionen</h5>
         </div>
@@ -89,21 +87,18 @@
             </tbody>
           </table>
         </div>
-        <div class ="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
       </div>
-      <div class="card" style="min-width: 34rem">
+      </div>
+      <div class="col-lg-7 no-padding">
+      <div class="card" style="height: 100%">
         <div class="card-header">
-          <h5>Dividendenrendite persönlich</h5>
+          <h5>Dividenden im Jahresverlauf</h5>
         </div>
         <div class="card-body text-center">
-          <p class="card-text"><span class="display-4">&Oslash; 3.5%</span></p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
+          <canvas id="canvas">{{ divChart }}</canvas>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div>
