@@ -9,7 +9,7 @@ export class ChartService {
   constructor() { }
 
   getDivChart() {
-    return new Chart('canvas', {
+    return new Chart('divChartCanvas', {
       type: 'bar',
       data: {
         labels: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
@@ -53,6 +53,32 @@ export class ChartService {
           yAxes: [{
             ticks: {              beginAtZero: true
             }
+          }]
+        }
+      }
+    });
+  }
+
+  getKursChart() {
+    return new Chart('kursChartCanvas', {
+      type: 'line',
+      data: {
+        labels: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+        datasets: [{
+          label: 'Depotverlauf',
+          data: [10000, 10300, 10800, 10850, 10220, 10500, 10700, 10950, 11300, 11170, 11450, 11400],
+          backgroundColor: [
+            'rgba(255, 160, 0, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 160, 0, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
           }]
         }
       }

@@ -30,7 +30,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit()  {
     const user = new User(this.loginForm.get('email').value, this.loginForm.get('password').value);
-    this.authService.signInUser(user);
-    this.router.navigateByUrl('/dashboard');
+    const promise = this.authService.signInUser(user);
+    promise
+      .then(_ => this.router.navigateByUrl('/dashboard'))
+      .catch(err => console.log(err));
   }
 }

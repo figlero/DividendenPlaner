@@ -41,7 +41,7 @@
       <div class="col-lg-5 no-padding">
       <div class="card">
         <div class="card-header">
-          <h5>Positionen</h5>
+          <h5>Größte 5 Positionen</h5>
         </div>
         <div class="card-body text-center">
           <table class="table table-hover">
@@ -54,35 +54,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
+            <tr *ngFor="let p of topFive; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{p.stock.isin}}</td>
+              <td>{{p.stock.name}}</td>
+              <td>{{p.stock.divYield}}</td>
             </tr>
             </tbody>
           </table>
@@ -95,10 +71,23 @@
           <h5>Dividenden im Jahresverlauf</h5>
         </div>
         <div class="card-body text-center">
-          <canvas id="canvas">{{ divChart }}</canvas>
+          <canvas id="divChartCanvas">{{ divChart }}</canvas>
         </div>
       </div>
     </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Depotverlauf</h5>
+        </div>
+        <div class="card-body text-center">
+          <canvas id="kursChartCanvas">{{ kursChart }}</canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -21,10 +21,7 @@ export class AuthService {
   }
 
   signInUser(user: User) {
-    this.fireauth.auth.signInWithEmailAndPassword(user.email, user.password).
-      catch(function (error) {
-      console.log(error);
-    });
+    return this.fireauth.auth.signInWithEmailAndPassword(user.email, user.password);
   }
 
   logOut()  {
@@ -38,5 +35,9 @@ export class AuthService {
     } else  {
       return true;
     }
+  }
+
+  getUid()  {
+    return this.state.uid;
   }
 }

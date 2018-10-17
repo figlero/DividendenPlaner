@@ -14,6 +14,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {ChartService} from './services/chart.service';
+import {DepotControllerService} from './services/depot-controller.service';
+import {DatabaseService} from './services/database.service';
+import { DepotverwaltungComponent } from './depotverwaltung/depotverwaltung.component';
+import { KaufComponent } from './kauf/kauf.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +26,8 @@ import {ChartService} from './services/chart.service';
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
+    DepotverwaltungComponent,
+    KaufComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,7 @@ import {ChartService} from './services/chart.service';
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [AuthService, ChartService],
+  providers: [AuthService, ChartService, DepotControllerService, DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

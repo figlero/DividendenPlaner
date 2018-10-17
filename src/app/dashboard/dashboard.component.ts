@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ChartService} from '../services/chart.service';
+import {DepotControllerService} from '../services/depot-controller.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,11 +10,15 @@ import {ChartService} from '../services/chart.service';
 export class DashboardComponent implements OnInit {
 
   divChart = [];
+  kursChart = [];
+  topFive = [];
 
-  constructor(private chartService: ChartService) { }
+  constructor(private chartService: ChartService, private depotController: DepotControllerService) { }
 
   ngOnInit() {
+    this.topFive = this.depotController.depot.positions;
     this.divChart = this.chartService.getDivChart();
+    this.kursChart = this.chartService.getKursChart();
   }
 
 }
