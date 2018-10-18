@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {DatabaseService} from '../services/database.service';
 import {Stock} from '../model/stock';
 import {Depot} from '../model/depot';
 import {Position} from '../model/position';
+import {DepotControllerService} from '../services/depot-controller.service';
+import {AngularFireAuth} from 'angularfire2/auth';
 
 @Component({
   selector: 'app-header',
@@ -13,22 +15,29 @@ import {Position} from '../model/position';
 })
 export class HeaderComponent implements OnInit {
   searchForm: FormGroup;
+  state: any;
+  uid;
 
-  constructor(private authService: AuthService, private databaseService: DatabaseService) {
-  }
+  constructor(private fireauth: AngularFireAuth, private authService: AuthService, private databaseService: DatabaseService, private depotController: DepotControllerService) { }
 
-    ngOnInit() {
+  ngOnInit() {
+    this.fireauth.authState.subscribe(state => this.resolveObs(state));
     this.searchForm = new FormGroup({
-        search: new FormControl('')
+      search: new FormControl('')
     });
   }
 
-  onLogout()  {
+  resolveObs(state) {
+    this.state = state;
+    this.uid = state.uid;
+  }
+
+  onLogout() {
     this.authService.logOut();
   }
 
   testStore() {
-    /*let depot = new Depot();
+    let depot = new Depot('dadadadada');
     let stock1 = new Stock('stock1', 'isin1', 1.0);
     let stock2 = new Stock('stock2', 'isin2', 2.0);
     let stock3 = new Stock('stock3', 'isin3', 3.0);
@@ -38,11 +47,8 @@ export class HeaderComponent implements OnInit {
     depot.positions.push(p1);
     depot.positions.push(p2);
     depot.positions.push(p3);
-    this.databaseService.storeDepot(depot);*/
+    this.databaseService.storeDepot(depot);
     // console.log(this.;
-  }
-
-  isAuthenticated() {
-    return this.authService.isAuthenticated();
+   // console.log(this.depotController.allDepots[0].uid);
   }
 }

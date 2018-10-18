@@ -18,6 +18,7 @@ import {DepotControllerService} from './services/depot-controller.service';
 import {DatabaseService} from './services/database.service';
 import { DepotverwaltungComponent } from './depotverwaltung/depotverwaltung.component';
 import { KaufComponent } from './kauf/kauf.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { KaufComponent } from './kauf/kauf.component';
     routing,
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    NgxSpinnerModule
   ],
   providers: [AuthService, ChartService, DepotControllerService, DatabaseService],
   bootstrap: [AppComponent]

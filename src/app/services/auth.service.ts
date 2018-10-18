@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {User} from '../model/user';
 import { AngularFireAuth} from 'angularfire2/auth';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthService {
   state: any;
 
   constructor(private fireauth: AngularFireAuth, private router: Router) {
-    this.fireauth.authState.subscribe(state => this.state = state);
+    this.fireauth.authState.subscribe(state => this.stateChange(state));
   }
 
   signUpUser(user: User) {
@@ -26,7 +27,6 @@ export class AuthService {
 
   logOut()  {
     this.fireauth.auth.signOut();
-    this.router.navigateByUrl('register');
   }
 
   isAuthenticated() {
@@ -39,5 +39,18 @@ export class AuthService {
 
   getUid()  {
     return this.state.uid;
+  }
+
+  getState() {
+    return new Observable(this.state);
+  }
+
+  stateChange(state) {
+    this.state = state;
+    if (this.state === null) {
+      this.router.navigateByUrl('login');
+    } else {
+      this.router.navigateByUrl('dashboard/' + this.getUid());
+    }
   }
 }

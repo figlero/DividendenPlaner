@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+        <a class="nav-link" routerLink="/dashboard/{{uid}}">Dashboard</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/depotverwaltung">Depotverwaltung</a>
@@ -24,7 +24,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="cursor: pointer" *ngIf="isAuthenticated()" (click)="onLogout()">Logout</a>
+        <a class="nav-link" style="cursor: pointer" *ngIf="this.state" (click)="onLogout()">Logout</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" [formGroup] = "searchForm">

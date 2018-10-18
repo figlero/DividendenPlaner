@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     const user = new User(this.loginForm.get('email').value, this.loginForm.get('password').value);
     const promise = this.authService.signInUser(user);
     promise
-      .then(_ => this.router.navigateByUrl('/dashboard'))
+      .then(_ => console.log('login successfull'))
       .catch(err => console.log(err));
   }
 }

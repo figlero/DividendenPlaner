@@ -39,4 +39,8 @@ export class DatabaseService {
       .then(_ => console.log('success'))
       .catch(err => console.log(err, 'You do not have access!'));
   }
+
+  getDepots() {
+    this.depots.toPromise();
+  }
 }
