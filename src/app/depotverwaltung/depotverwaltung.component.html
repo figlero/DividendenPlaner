@@ -8,32 +8,24 @@
         <div class="card-header"><h5>Depot</h5></div>
         <div class="card-body">
           <div class="table-responsive">
-      <table class="table table-hover">
+      <table *ngIf="depot" class="table table-hover">
         <thead>
         <tr>
           <th scope="col">ISIN</th>
           <th scope="col">Name</th>
           <th scope="col">Div. Rendite</th>
-          <th scope="col">Wert</th>
+          <th scope="col">Anzahl</th>
           <th scope="col">Verkaufen</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>DE0131311415</td>
-          <td>MSCI WORLD FUTSI EM</td>
-          <td>3.5%</td>
-          <td>30.000</td>
+        <tr *ngFor="let p of depot.positions">
+          <td>{{p.stock.isin}}</td>
+          <td>{{p.stock.name}}</td>
+          <td>{{p.stock.divYield}}</td>
+          <td>{{p.anzahl}}</td>
           <td>
-            <button class="btn btn-danger">Verkaufen</button></td>
-        </tr>
-        <tr>
-          <td>DE0131311415</td>
-          <td>MSCI WORLD FUTSI EM</td>
-          <td>3.5%</td>
-          <td>30.000</td>
-          <td>
-            <button class="btn btn-danger">Verkaufen</button></td>
+            <button class="btn btn-danger" (click)="openSellModal(p)">Verkaufen</button></td>
         </tr>
         </tbody>
       </table>
@@ -43,5 +35,25 @@
       </div>
     </div>
   </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Wertpapier verkaufen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Wollen Sie wirklich das Wertpapier: <span *ngIf="toSell">{{toSell.stock.name}}</span> aus ihrem Depot entfernen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="onSell(toSell)" class="btn btn-danger">OK</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+      </div>
+    </div>
   </div>
 </div>

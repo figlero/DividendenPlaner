@@ -10,8 +10,8 @@ const APP_ROUTES: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'dashboard/:uid', component: DashboardComponent, canActivate: [DashboardGuard]},
-  {path: 'depotverwaltung', component: DepotverwaltungComponent, canActivate: [DashboardGuard]},
+  {path: 'dashboard/:uid  ', component: DashboardComponent, canActivate: [DashboardGuard]},
+  {path: 'depotverwaltung/:uid', component: DepotverwaltungComponent, canActivate: [DashboardGuard]},
   {path: 'kaufen', component: KaufComponent, canActivate: [DashboardGuard]}
 ];
 

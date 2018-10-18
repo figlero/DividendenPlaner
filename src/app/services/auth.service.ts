@@ -41,10 +41,6 @@ export class AuthService {
     return this.state.uid;
   }
 
-  getState() {
-    return new Observable(this.state);
-  }
-
   stateChange(state) {
     this.state = state;
     if (this.state === null) {

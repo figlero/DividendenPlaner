@@ -6,4 +6,8 @@ function exitModal() {
   $('#registerModal').modal('hide');
 }
 
+function sellModal(visible) {
+  $('#sellModal').modal(visible);
+}
+
 

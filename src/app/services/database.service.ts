@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {Stock} from '../model/stock';
 import {Depot} from '../model/depot';
 import {AuthService} from './auth.service';
+import {addRemoveViewFromContainer} from '@angular/core/src/render3/node_manipulation';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,18 @@ export class DatabaseService {
       .catch(err => console.log(err, 'You do not have access!'));
   }
 
-  getDepots() {
-    this.depots.toPromise();
+  getDepot(uid) {
+    let rootref = this.db.database.ref();
+    let depotsref = rootref.child('depots');
+    return depotsref.orderByChild('uid').equalTo(uid).once('value');
+  }
+
+  removePosition(uid, newDepot: Depot) {
+    const positions = newDepot.positions;
+    this.getDepot(uid).then(snapshot => this.depotsRef.update((Object.keys(snapshot.val())[0]), {positions}));
+  }
+
+  removePositionCallback(value, newdepot)  {
+
   }
 }

@@ -22,23 +22,23 @@ export class DashboardComponent implements OnInit {
 
   constructor(private chartService: ChartService, private depotController: DepotControllerService,
               private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private spinner: NgxSpinnerService) {
-      this.activatedRoute.params.subscribe(params =>  this.uid = params);
   }
 
   ngOnInit() {
     this.spinner.show();
-    this.databaseService.depots.subscribe(value => this.resolveObs(value), error1 => console.log(error1)
-    , ()  => console.log('complete'));
-
+    this.activatedRoute.params.subscribe(params =>  this.resolveParams(params));
     this.divChart = this.chartService.getDivChart();
     this.kursChart = this.chartService.getKursChart();
   }
 
-  resolveObs(value)  {
-    this.allDepots = value;
-    this.depot = this.allDepots[0];
+  resolveParams(params)  {
+    this.uid = Object.values(params)[0];
+    this.databaseService.getDepot(this.uid).then(depot => this.initUi(Object.values(depot.val())[0]));
+  }
+
+  initUi(depot) {
+    this.depot = depot;
     this.topFive = this.depot.positions;
     this.spinner.hide();
   }
-
 }
