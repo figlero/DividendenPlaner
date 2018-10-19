@@ -19,6 +19,10 @@ import {DatabaseService} from './services/database.service';
 import { DepotverwaltungComponent } from './depotverwaltung/depotverwaltung.component';
 import { KaufComponent } from './kauf/kauf.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import { StockOverviewComponent } from './stock-overview/stock-overview.component';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpService} from './services/http.service';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     DashboardComponent,
     DepotverwaltungComponent,
     KaufComponent,
+    StockOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,9 +42,11 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HttpClientModule,
+    CommonModule
   ],
-  providers: [AuthService, ChartService, DepotControllerService, DatabaseService],
+  providers: [AuthService, ChartService, DepotControllerService, DatabaseService, HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -28,8 +28,14 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" [formGroup] = "searchForm">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" formControlName="search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="testStore()">Search</button>
+      <input class="form-control mr-sm-2" type="text" placeholder="Nach Symbol suchen" list="languages" id="searchInput" formControlName="search" aria-label="Search" #searchvalue>
+      <datalist id="languages">
+        <option value="fb">
+        <option value="intc">
+        <option value="goog">
+        <option value="aapl">
+      </datalist>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="button" routerLink="aktienübersicht/{{searchvalue.value}}">Search</button>
     </form>
   </div>
 </nav>

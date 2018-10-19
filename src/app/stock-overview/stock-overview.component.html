@@ -1,0 +1,53 @@
+<div class="container" style="margin-top: 4.5rem">
+  <h3 style="max-height: 2rem">Aktienübersicht <img src="{{imgSrc}}" style="max-height: inherit" class="rounded img-fluid" alt="Kein Bild vorhanden"></h3>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Aktie {{symbol.toString() | uppercase}} der {{companyName}} - Kursverlauf in USD</h5>
+        </div>
+        <div class="card-body text-center">
+          <canvas id="kursChartStockCanvas">{{ kursChartStock }}</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Kursveränderung letzte 30 Tage</h5>
+        </div>
+        <div [className]="day30Change<0 ? 'card-body text-center negative' : 'card-body text-center positive'">
+          <span class="display-4">{{day30Change*100 | number }}%</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Dividende</h5>
+        </div>
+        <div class="card-body text-center">
+          <span class="display-4">{{dividendRate}}$</span>
+        </div>
+        <div class="card-footer" *ngIf="exDividendDate!='0'"><span style="font-weight: lighter">Letzter Dividendenstichtag: {{exDividendDate | date: 'dd.MM.yy'}}</span></div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Dividendenrendite</h5>
+        </div>
+        <div class="card-body text-center">
+          <span class="display-4">{{dividendYield | number }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <button style="margin-bottom: 3rem" class="btn btn-success">Zum Depot hinzufügen</button>
+</div>
+
