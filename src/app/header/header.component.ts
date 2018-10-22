@@ -16,8 +16,6 @@ declare function searchModal(): any;
 
 export class HeaderComponent implements OnInit {
   searchForm: FormGroup = new FormGroup({search : new FormControl('')});
-  //state: any;
-  //uid;
   auth;
   allSymbols;
   @ViewChild('languages') languages: ElementRef;
@@ -30,14 +28,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.httpService.getAllSymbols().then(value => this.initSymbols(value)).catch(reason => console.log(
       'loading symbols failed. reason: ' + reason ));
-     // this.fireauth.authState.subscribe(state => this.resolveObs(state));
   }
-
-  /*resolveObs(state) {
-    console.log('RESOLVED');
-    this.state = state;
-    this.uid = state.uid;
-  }*/
 
   initSymbols(symbols)  {
     this.allSymbols = symbols;

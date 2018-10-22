@@ -23,6 +23,7 @@ import { StockOverviewComponent } from './stock-overview/stock-overview.componen
 import {HttpClientModule} from '@angular/common/http';
 import {HttpService} from './services/http.service';
 import {CommonModule} from '@angular/common';
+import {DataTablesModule} from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {CommonModule} from '@angular/common';
     AngularFireAuthModule,
     NgxSpinnerModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    DataTablesModule
   ],
   providers: [AuthService, ChartService, DepotControllerService, DatabaseService, HttpService],
   bootstrap: [AppComponent]

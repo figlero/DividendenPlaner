@@ -1,21 +1,32 @@
 import {Injectable} from '@angular/core';
 import {Depot} from '../model/depot';
-import {Stock} from '../model/stock';
 import {Position} from '../model/position';
-import {AuthService} from './auth.service';
 import {DatabaseService} from './database.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepotControllerService {
-  depot: Depot;
+  private depot;
   allDepots: Depot[];
 
-  constructor(private authService: AuthService, private databaseService: DatabaseService) {
+  constructor(private databaseService: DatabaseService) {
     this.databaseService.depots.subscribe(value => this.allDepots = value, error => console.log(error));
   }
 
+  setDepot(depotPromise: Promise<any>)  {
+    depotPromise.then( value => this.depot = Object.values(value.val())[0]);
+  }
+
+  getDepot(): Depot {
+    return this.depot;
+  }
+
+  addPosition(uid, pos: Position)  {
+    this.depot.positions.push(pos);
+    this.databaseService.changePosition(uid, this.depot);
+  }
   /*initDepot(uid,) {
     for (let d of value) {
       if (d.uid === uid) {

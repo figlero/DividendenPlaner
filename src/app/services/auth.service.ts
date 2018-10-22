@@ -3,6 +3,8 @@ import {User} from '../model/user';
 import { AngularFireAuth} from 'angularfire2/auth';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {DepotControllerService} from './depot-controller.service';
+import {DatabaseService} from './database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,8 @@ import {Observable} from 'rxjs';
 export class AuthService {
   state: any;
 
-  constructor(private fireauth: AngularFireAuth, private router: Router) {
+  constructor(private fireauth: AngularFireAuth, private router: Router, private depotController: DepotControllerService,
+              private databaseService: DatabaseService) {
     this.fireauth.authState.subscribe(state => this.stateChange(state));
   }
 
@@ -46,6 +49,7 @@ export class AuthService {
     if (this.state === null) {
       this.router.navigateByUrl('login');
     } else {
+      this.depotController.setDepot(this.databaseService.getDepot(this.getUid()));
       this.router.navigateByUrl('dashboard/' + this.getUid());
     }
   }

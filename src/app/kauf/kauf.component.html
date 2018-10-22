@@ -8,20 +8,24 @@
           <div class="card-header"><h5>Wertpapiere</h5></div>
           <div class="card-body">
             <div class="table-responsive">
-            <table class="table table-hover">
+            <table id="buyTable" datatable [dtTrigger]="dtTrigger"  class="table table-hover table-striped table-bordered" #buyTable>
               <thead>
               <tr>
-                <th scope="col">ISIN</th>
+                <th scope="col">Symbol</th>
                 <th scope="col">Name</th>
                 <th scope="col">Div. Rendite</th>
+                <th scope="col">Details</th>
                 <th scope="col">Kaufen</th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let s of allStocks">
-                <td>{{s.isin}}</td>
+                <td>{{s.symbol}}</td>
                 <td>{{s.name}}</td>
-                <td>{{s.divYield}}%</td>
+                <td>LOREM%</td>
+                <td>
+                  <button class="btn btn-secondary">Details</button>
+                </td>
                 <td>
                   <button class="btn btn-success">kaufen</button>
                 </td>

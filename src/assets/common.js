@@ -14,10 +14,18 @@ function searchModal() {
   $('#searchModal').modal('show');
 }
 
+function buyModal(visible) {
+  $('#buyModal').modal(visible);
+}
+
 function initTypeahead(values) {
 
   $('#symbolSearch').typeahead({
     source: values,
     items: 10
   });
+}
+
+function initDataTable(){
+  $('#buyTable').DataTable();
 }

@@ -4,6 +4,12 @@ import {HttpService} from '../services/http.service';
 import {ActivatedRoute} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Chart} from 'chart.js';
+import {DepotControllerService} from '../services/depot-controller.service';
+import {Position} from '../model/position';
+import {Stock} from '../model/stock';
+import {AuthService} from '../services/auth.service';
+
+declare function buyModal(visibility): any;
 
 @Component({
   selector: 'app-stock-overview',
@@ -17,13 +23,14 @@ export class StockOverviewComponent implements OnInit {
   dataset;
   companyName: string;
   day30Change: number;
-  dividendYield: string;
+  dividendYield: number;
   dividendRate: string;
   exDividendDate;
   imgSrc;
   uid;
 
-  constructor(private chartService: ChartService, private httpService: HttpService, private activatedRoute: ActivatedRoute, private spinner: NgxSpinnerService) {
+  constructor(private chartService: ChartService, private httpService: HttpService, private activatedRoute: ActivatedRoute, private spinner: NgxSpinnerService,
+              private depotController: DepotControllerService, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -58,8 +65,11 @@ export class StockOverviewComponent implements OnInit {
     });
   }
 
-  onBuy(){
-
+  onBuy(anzahl) {
+    const s = new Stock(this.companyName, this.symbol, this.dividendYield);
+    const p = new Position(s, anzahl);
+    this.depotController.addPosition(this.authService.getUid(), p);
+    buyModal('hide');
   }
 
 }

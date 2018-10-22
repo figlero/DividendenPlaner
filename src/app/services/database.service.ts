@@ -17,7 +17,7 @@ export class DatabaseService {
   depots: Observable<any>;
   depotsRef;
 
-  constructor(private db: AngularFireDatabase, private authService: AuthService) {
+  constructor(private db: AngularFireDatabase) {
     // stocks
     this.stocksRef = db.list('stocks');
     this.stocks = db.list('stocks').valueChanges();
