@@ -22,4 +22,7 @@ export class HttpService {
   getLogo(symbol) {
     return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/logo').toPromise();
   }
+  getAllSymbols() {
+    return this.http.get('https://api.iextrading.com/1.0/ref-data/symbols').toPromise();
+  }
 }

@@ -1,36 +1,65 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Form, FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
-import {DatabaseService} from '../services/database.service';
-import {Stock} from '../model/stock';
-import {Depot} from '../model/depot';
-import {Position} from '../model/position';
-import {DepotControllerService} from '../services/depot-controller.service';
 import {AngularFireAuth} from 'angularfire2/auth';
+import {HttpService} from '../services/http.service';
+import {Router} from '@angular/router';
+
+declare function initTypeahead(symbols): any;
+declare function searchModal(): any;
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+
 export class HeaderComponent implements OnInit {
-  searchForm: FormGroup;
-  state: any;
-  uid;
+  searchForm: FormGroup = new FormGroup({search : new FormControl('')});
+  //state: any;
+  //uid;
+  auth;
+  allSymbols;
+  @ViewChild('languages') languages: ElementRef;
 
   constructor(private fireauth: AngularFireAuth, private authService: AuthService,
-              private databaseService: DatabaseService, private depotController: DepotControllerService) { }
-
-  ngOnInit() {
-    this.fireauth.authState.subscribe(state => this.resolveObs(state));
-    this.searchForm = new FormGroup({
-      search: new FormControl('')
-    });
+              private httpService: HttpService, private router: Router) {
+    this.auth = authService;
   }
 
-  resolveObs(state) {
+  ngOnInit() {
+    this.httpService.getAllSymbols().then(value => this.initSymbols(value)).catch(reason => console.log(
+      'loading symbols failed. reason: ' + reason ));
+     // this.fireauth.authState.subscribe(state => this.resolveObs(state));
+  }
+
+  /*resolveObs(state) {
+    console.log('RESOLVED');
     this.state = state;
     this.uid = state.uid;
+  }*/
+
+  initSymbols(symbols)  {
+    this.allSymbols = symbols;
+    initTypeahead(this.allSymbols);
+  }
+
+  onSearch(value) {
+      const symbol = this.getSymbolFromNameName(value);
+      if  (symbol !== '') {
+        this.router.navigateByUrl('/aktienübersicht/' + this.authService.getUid() + '/' + symbol);
+      } else  {
+        searchModal();
+      }
+  }
+
+  getSymbolFromNameName(name): String {
+    for (const company of this.allSymbols)  {
+      if  (company.name === name)  {
+        return company.symbol;
+      }
+    }
+    return '';
   }
 
   onLogout() {

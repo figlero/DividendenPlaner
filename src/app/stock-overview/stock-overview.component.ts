@@ -19,8 +19,9 @@ export class StockOverviewComponent implements OnInit {
   day30Change: number;
   dividendYield: string;
   dividendRate: string;
-  exDividendDate: string;
+  exDividendDate;
   imgSrc;
+  uid;
 
   constructor(private chartService: ChartService, private httpService: HttpService, private activatedRoute: ActivatedRoute, private spinner: NgxSpinnerService) {
   }
@@ -31,7 +32,8 @@ export class StockOverviewComponent implements OnInit {
   }
 
   initGUI(value) {
-    this.symbol = Object.values(value)[0];
+    this.uid = value.uid;
+    this.symbol = value.symbol;
     this.httpService.getData1Y(this.symbol).subscribe(data => this.dataset = data, error1 => console.log(error1),
       () => {
         if (this.kursChartStock !== undefined) {
@@ -54,6 +56,10 @@ export class StockOverviewComponent implements OnInit {
         this.spinner.hide();
       });
     });
+  }
+
+  onBuy(){
+
   }
 
 }

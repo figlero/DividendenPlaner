@@ -14,7 +14,7 @@ const APP_ROUTES: Routes = [
   {path: 'dashboard/:uid  ', component: DashboardComponent, canActivate: [DashboardGuard]},
   {path: 'depotverwaltung/:uid', component: DepotverwaltungComponent, canActivate: [DashboardGuard]},
   {path: 'kaufen', component: KaufComponent, canActivate: [DashboardGuard]},
-  {path: 'aktienübersicht/:symbol', component: StockOverviewComponent, canActivate: [DashboardGuard]}
+  {path: 'aktienübersicht/:uid/:symbol', component: StockOverviewComponent, canActivate: [DashboardGuard]}
 ];
 
 export const routing = RouterModule.forRoot(APP_ROUTES);
