@@ -23,7 +23,9 @@ import { StockOverviewComponent } from './stock-overview/stock-overview.componen
 import {HttpClientModule} from '@angular/common/http';
 import {HttpService} from './services/http.service';
 import {CommonModule} from '@angular/common';
-import {DataTablesModule} from 'angular-datatables';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatTableModule} from '@angular/material';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import {DataTablesModule} from 'angular-datatables';
     NgxSpinnerModule,
     HttpClientModule,
     CommonModule,
-    DataTablesModule
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [AuthService, ChartService, DepotControllerService, DatabaseService, HttpService],
   bootstrap: [AppComponent]

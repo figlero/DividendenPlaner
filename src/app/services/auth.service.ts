@@ -49,7 +49,7 @@ export class AuthService {
     if (this.state === null) {
       this.router.navigateByUrl('login');
     } else {
-      this.depotController.setDepot(this.databaseService.getDepot(this.getUid()));
+      this.depotController.setDepot(this.databaseService.getDepot(this.getUid()), this.getUid());
       this.router.navigateByUrl('dashboard/' + this.getUid());
     }
   }

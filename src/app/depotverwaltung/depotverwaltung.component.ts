@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatabaseService} from '../services/database.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Depot} from '../model/depot';
 import {Position} from '../model/position';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {DepotControllerService} from '../services/depot-controller.service';
 
 declare function sellModal(visible): any;
 
@@ -14,12 +16,15 @@ declare function sellModal(visible): any;
 })
 export class DepotverwaltungComponent implements OnInit {
 
-  allDepots: Depot[];
   uid;
   depot: Depot;
+  displayedColumns: string[] = ['symbol', 'name', 'divyield', 'anzahl', 'verkaufen'];
+  dataSource;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   toSell: Position;
 
-  constructor(private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private spinner: NgxSpinnerService) { }
+  constructor(private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private spinner: NgxSpinnerService,
+              private depotController: DepotControllerService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -28,11 +33,13 @@ export class DepotverwaltungComponent implements OnInit {
 
   resolveParams(params)  {
     this.uid = Object.values(params)[0];
-    this.databaseService.getDepot(this.uid).then(depot => this.initUi(Object.values(depot.val())[0]));
+    this.initUi(this.depotController.getDepot());
   }
 
   initUi(depot) {
     this.depot = depot;
+    this.dataSource = new MatTableDataSource<any>(this.depot.positions);
+    this.dataSource.paginator = this.paginator;
     this.spinner.hide();
   }
 
@@ -41,10 +48,11 @@ export class DepotverwaltungComponent implements OnInit {
     console.log(pos);
     sellModal('show');
   }
-  onSell(posi)  {
-    this.depot.positions.splice(this.depot.positions.indexOf(posi), 1);
-    this.databaseService.removePosition(this.uid, this.depot);
+  onSell(pos)  {
+    console.log(pos);
+    this.depotController.removePosition(this.uid, pos);
+    this.dataSource = new MatTableDataSource<any>(this.depot.positions);
+    this.dataSource.paginator = this.paginator;
     sellModal('hide');
   }
-
 }

@@ -32,11 +32,11 @@ export class RegisterComponent implements OnInit {
   onSubmit()  {
    const user = new User(this.registerForm.get('email').value, this.registerForm.get('password').value);
     this.authService.signUpUser(user);
-    registerModal();
+    //registerModal();
   }
 
   goToLogin() {
     exitModal();
-    this.router.navigateByUrl('/login');
+    setTimeout(() => this.router.navigateByUrl('/login'), 500);
   }
 }

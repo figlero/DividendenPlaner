@@ -1,5 +1,5 @@
 <div class="container" style="margin-top: 4.5rem">
-  <h3 (click)="test()">Dashboard</h3>
+  <h3>Dashboard</h3>
   <hr>
   <div class="row justify-content-center">
     <div class="card-deck" style="width: 100%">
@@ -29,7 +29,7 @@
           <h5>Depotwert</h5>
         </div>
         <div class="card-body text-center">
-          <p class="card-text"><span class="display-4">300.000€</span></p>
+          <p class="card-text"><span class="display-4">{{depotController.getGesamtWert() | currency:'USD':true:'0.1-1'}}</span></p>
         </div>
       </div>
     </div>
@@ -53,8 +53,8 @@
               <th scope="col">Wert</th>
             </tr>
             </thead>
-            <tbody>
-            <tr *ngFor="let p of topFive; let i = index">
+            <tbody *ngIf="depotController.depot">
+            <tr *ngFor="let p of depotController.depot.positions; let i = index">
               <th scope="row">{{i+1}}</th>
               <td>{{p.stock.isin}}</td>
               <td>{{p.stock.name}}</td>
@@ -90,4 +90,4 @@
       </div>
     </div>
   </div>
-</div>
+</div >

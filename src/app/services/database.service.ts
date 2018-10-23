@@ -46,10 +46,10 @@ export class DatabaseService {
     return depotsref.orderByChild('uid').equalTo(uid).once('value');
   }
 
-  removePosition(uid, newDepot: Depot) {
-    const positions = newDepot.positions;
-    this.getDepot(uid).then(snapshot => this.depotsRef.update((Object.keys(snapshot.val())[0]), {positions}));
-  }
+  //removePosition(uid, newDepot: Depot) {
+    //const positions = newDepot.positions;
+    //this.getDepot(uid).then(snapshot => this.depotsRef.update((Object.keys(snapshot.val())[0]), {positions}));
+  //}
 
   changePosition(uid, newDepot: Depot) {
     const positions = newDepot.positions;

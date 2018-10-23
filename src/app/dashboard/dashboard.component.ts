@@ -17,28 +17,34 @@ export class DashboardComponent implements OnInit {
   kursChart = [];
   topFive = [];
   uid;
-  allDepots: Depot[];
-  depot: Depot;
+  depotController;
 
-  constructor(private chartService: ChartService, private depotController: DepotControllerService,
+  constructor(private chartService: ChartService, private depotControllerService: DepotControllerService,
               private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private spinner: NgxSpinnerService) {
+    this.depotController = this.depotControllerService;
   }
 
   ngOnInit() {
     this.spinner.show();
-    this.activatedRoute.params.subscribe(params =>  this.resolveParams(params));
-    this.divChart = this.chartService.getDivChart();
-    this.kursChart = this.chartService.getKursChart();
+    //this.activatedRoute.params.subscribe(params => this.resolveParams(params));
+    this.initUi();
   }
 
-  resolveParams(params)  {
+  resolveParams(params) {
     this.uid = Object.values(params)[0];
-    this.databaseService.getDepot(this.uid).then(depot => this.initUi(Object.values(depot.val())[0]));
+   // this.initUi(this.depotController.getDepot());
+    //this.initUi(this.depotController.getDepot());
+    // this.databaseService.getDepot(this.uid).then(depot => this.initUi(Object.values(depot.val())[0]));
   }
 
-  initUi(depot) {
-    this.depot = depot;
-    this.topFive = this.depot.positions;
-    this.spinner.hide();
+  initUi() {
+    if (this.depotController.depot !== undefined) {
+      console.log(this.depotController.lastWerte);
+      this.divChart = this.chartService.getDivChart();
+      this.kursChart = this.chartService.getKursChart();
+      this.spinner.hide();
+    } else {
+      setTimeout(() => this.initUi(), 500);
+    }
   }
 }

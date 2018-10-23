@@ -3,3 +3,18 @@
   padding-right: 0px;
 }
 
+.th-mat{
+  border-bottom-style: none;
+  padding: .75rem;
+}
+
+td.mat-cell{
+  border-bottom-style: none;
+  padding: .75rem;
+}
+
+.table th{
+  padding: .75rem !important;
+  border-top: 0px !important;
+}
+

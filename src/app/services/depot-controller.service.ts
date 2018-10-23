@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Depot} from '../model/depot';
 import {Position} from '../model/position';
 import {DatabaseService} from './database.service';
+import {AuthService} from './auth.service';
+import {HttpService} from './http.service';
 
 
 @Injectable({
@@ -10,45 +12,56 @@ import {DatabaseService} from './database.service';
 export class DepotControllerService {
   private depot;
   allDepots: Depot[];
+  private lastWerte = [];
 
-  constructor(private databaseService: DatabaseService) {
+  constructor(private databaseService: DatabaseService, private httpService: HttpService) {
     this.databaseService.depots.subscribe(value => this.allDepots = value, error => console.log(error));
   }
 
-  setDepot(depotPromise: Promise<any>)  {
-    depotPromise.then( value => this.depot = Object.values(value.val())[0]);
+  setDepot(depotPromise: Promise<any>, uid) {
+    depotPromise.then(value => {
+      if (value.val() === null || value.val() === undefined) {
+        const depot = new Depot(uid);
+        this.databaseService.storeDepot(depot);
+        this.depot = depot;
+        this.initDepotData();
+      } else {
+        this.depot = Object.values(value.val())[0];
+        this.initDepotData();
+      }
+    });
   }
 
   getDepot(): Depot {
     return this.depot;
   }
 
-  addPosition(uid, pos: Position)  {
+  addPosition(uid, pos: Position) {
     this.depot.positions.push(pos);
     this.databaseService.changePosition(uid, this.depot);
+    // this.setDepot(this.databaseService.getDepot(uid), uid);
   }
-  /*initDepot(uid,) {
-    for (let d of value) {
-      if (d.uid === uid) {
-        this.depot = d;
-      }
+
+  removePosition(uid, pos: Position) {
+    this.depot.positions.splice(this.depot.positions.indexOf(pos), 1);
+    this.databaseService.changePosition(uid, this.depot);
+    // this.setDepot(this.databaseService.getDepot(uid), uid);
+  }
+
+  initDepotData() {
+    this.loadLastWerte();
+  }
+
+  loadLastWerte() {
+    for (const pos of this.depot.positions) {
+      this.httpService.getLastPrice(pos.stock.symbol).subscribe(value => this.lastWerte.push({price: value.price, anzahl: pos.anzahl}));
     }
-    /* this.depot = new Depot(this.authService.getUid());
-     const stock = new Stock('stock1', 'isin1', 3.5);
-     const stock2 = new Stock('stock2', 'isin2', 2.5);
-     const stock3 = new Stock('stock3', 'isin3', 1.5);
-     const stock4 = new Stock('stock4', 'isin4', 4.5);
-     const stock5 = new Stock('stock5', 'isin5', 5.5);
-     const position = new Position(stock, 3);
-     const position2 = new Position(stock2, 1);
-     const position3 = new Position(stock3, 10);
-     const position4 = new Position(stock4, 5);
-     const position5 = new Position(stock5, 2);
-     this.depot.positions.push(position);
-     this.depot.positions.push(position2);
-     this.depot.positions.push(position3);
-     this.depot.positions.push(position4);
-     this.depot.positions.push(position5);
-     this.databaseService.storeDepot(this.depot);
-  }*/
+  }
+    getGesamtWert() {
+    let summe = 0.0;
+      for (const w of this.lastWerte) {
+        summe += (w.price * w.anzahl);
+      }
+      return summe;
+    }
 }
