@@ -28,6 +28,7 @@ export class StockOverviewComponent implements OnInit {
   exDividendDate;
   imgSrc;
   uid;
+  companyData;
 
   constructor(private chartService: ChartService, private httpService: HttpService, private activatedRoute: ActivatedRoute, private spinner: NgxSpinnerService,
               private depotController: DepotControllerService, private authService: AuthService) {
@@ -49,26 +50,26 @@ export class StockOverviewComponent implements OnInit {
         this.kursChartStock = this.chartService.getKursChartStock(this.dataset);
       }
     );
-    this.httpService.getCompanyData(this.symbol).then(value1 => {
-      console.log(value1);
-      const string = JSON.stringify(value1);
-      const json = JSON.parse(string);
-      this.companyName = json.companyName;
-      this.day30Change = json.day30ChangePercent;
-      this.dividendRate = json.dividendRate;
-      this.dividendYield = json.dividendYield;
-      this.exDividendDate = json.exDividendDate;
-      this.httpService.getLogo(this.symbol).then(value2 => {
-        this.imgSrc = JSON.parse(JSON.stringify(value2)).url;
-        this.spinner.hide();
+    this.httpService.getKeyStats(this.symbol).then(value1 => {
+      this.companyName = value1.companyName;
+      this.day30Change = value1.day30ChangePercent;
+      this.dividendRate = value1.dividendRate;
+      this.dividendYield = value1.dividendYield;
+      this.exDividendDate = value1.exDividendDate;
+      this.httpService.getLogo(this.symbol).then(src => {
+        this.imgSrc = src;
+        this.httpService.getCompanyData(this.symbol).then(companyData => {
+          this.companyData = companyData;
+          this.spinner.hide();
+        })
       });
     });
   }
 
   onBuy(anzahl) {
-    const s = new Stock(this.companyName, this.symbol, this.dividendYield);
-    const p = new Position(s, anzahl);
-    this.depotController.addPosition(this.authService.getUid(), p);
+    const s = new Stock(this.companyName, this.symbol);
+   //const p = new Position(s, anzahl);
+    this.depotController.addPosition(this.authService.getUid(), s, anzahl);
     buyModal('hide');
   }
 

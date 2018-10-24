@@ -8,7 +8,7 @@
           <div class="card-header"><h5>Wertpapiere</h5></div>
           <div class="card-body">
               <input type="text" class="form-control" style="width: 30%" (keyup)="applyFilter($event.target.value)" placeholder="Suche nach Aktie">
-              <table mat-table class="table" style="width: 100%;" [dataSource]="dataSource">
+              <table mat-table class="table table-hover" style="width: 100%;" [dataSource]="dataSource">
 
                 <!-- symbol Column -->
                 <ng-container matColumnDef="symbol">
@@ -37,9 +37,10 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="cursor: pointer" data-toggle="collapse" href="#collapseExample"
+                    role="button" aria-expanded="false" aria-controls="collapseExample">
+                </tr>
               </table>
-
               <mat-paginator [pageSize]="[5]" showFirstLastButtons></mat-paginator>
           </div>
         </div>

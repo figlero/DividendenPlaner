@@ -7,7 +7,7 @@ export class Depot {
   uid: string;
 
   constructor(uid: string) {
-    this.positions = new Array<Position>();
+    this.positions = [];
     this.uid = uid;
   }
 

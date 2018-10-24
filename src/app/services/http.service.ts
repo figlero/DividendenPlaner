@@ -17,12 +17,19 @@ export class HttpService {
     return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/chart/1y');
   }
 
+  getKeyStats(symbol) {
+    return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/stats').pipe(
+      map( value => JSON.parse(JSON.stringify(value)))).toPromise();
+  }
+
   getCompanyData(symbol) {
-    return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/stats').toPromise();
+    return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/company').pipe(
+      map( value => JSON.parse(JSON.stringify(value)))).toPromise();
   }
 
   getLogo(symbol) {
-    return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/logo').toPromise();
+    return this.http.get('https://api.iextrading.com/1.0/stock/' + symbol + '/logo').pipe(
+      map( value => JSON.parse(JSON.stringify(value)).url)).toPromise();
   }
 
   getAllSymbols() {

@@ -18,7 +18,7 @@ export class DepotverwaltungComponent implements OnInit {
 
   uid;
   depot: Depot;
-  displayedColumns: string[] = ['symbol', 'name', 'divyield', 'anzahl', 'verkaufen'];
+  displayedColumns: string[] = ['logo', 'symbol', 'name', 'divyield', 'dividend', 'price', 'buyprice', 'anzahl', 'wert', 'buywert', 'performance', 'verkaufen'];
   dataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   toSell: Position;
@@ -33,12 +33,12 @@ export class DepotverwaltungComponent implements OnInit {
 
   resolveParams(params)  {
     this.uid = Object.values(params)[0];
-    this.initUi(this.depotController.getDepot());
+    this.initUi();
   }
 
-  initUi(depot) {
-    this.depot = depot;
-    this.dataSource = new MatTableDataSource<any>(this.depot.positions);
+  initUi() {
+    this.dataSource = new MatTableDataSource<any>(this.depotController.depotWerte);
+    console.log(this.depotController.depotWerte);
     this.dataSource.paginator = this.paginator;
     this.spinner.hide();
   }
@@ -49,10 +49,19 @@ export class DepotverwaltungComponent implements OnInit {
     sellModal('show');
   }
   onSell(pos)  {
-    console.log(pos);
     this.depotController.removePosition(this.uid, pos);
-    this.dataSource = new MatTableDataSource<any>(this.depot.positions);
-    this.dataSource.paginator = this.paginator;
-    sellModal('hide');
+    this.updateTable();
+  }
+
+  updateTable() {
+    this.spinner.show();
+    if (this.depotController.finishedLoading === true) {
+      this.dataSource = new MatTableDataSource<any>(this.depotController.depotWerte);
+      this.dataSource.paginator = this.paginator;
+      this.spinner.hide();
+      sellModal('hide');
+    } else {
+      setTimeout(() => this.updateTable(), 500);
+    }
   }
 }

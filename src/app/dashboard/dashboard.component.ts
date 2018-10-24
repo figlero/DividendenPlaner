@@ -38,8 +38,7 @@ export class DashboardComponent implements OnInit {
   }
 
   initUi() {
-    if (this.depotController.depot !== undefined) {
-      console.log(this.depotController.lastWerte);
+    if (this.depotController.finishedLoading === true) {
       this.divChart = this.chartService.getDivChart();
       this.kursChart = this.chartService.getKursChart();
       this.spinner.hide();
