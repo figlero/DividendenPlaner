@@ -9,29 +9,39 @@ import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 import {Stock} from '../model/stock';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { FormsModule } from '@angular/forms';
+import {Position} from '../model/position';
+import {DepotControllerService} from '../services/depot-controller.service';
+
+declare function quickBuyModal(visible);
 
 @Component({
   selector: 'app-kauf',
   templateUrl: './kauf.component.html',
   styleUrls: ['./kauf.component.css'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
+    trigger('flyIn', [
+      transition('close => open', [
+        style({opacity: 0 }),
+        animate('3000ms', style({ opacity: 1 })),
+      ]),
+    ])
   ],
 })
+
 export class KaufComponent implements OnInit {
-  displayedColumns: string[] = ['symbol', 'name', 'details', 'kaufen'];
+  displayedColumns: string[] = ['symbol', 'name', 'details', 'anzahl', 'kaufen'];
   expandedElement: Stock;
   dataSource;
+  animate = 'close';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(DataTableDirective)
     http: HttpService;
+  anzahlArray = [];
+  test;
 
   constructor(private databaseService: DatabaseService, private httpService: HttpService, private appRef: ApplicationRef,
-              private spinner: NgxSpinnerService, private router: Router, private authService: AuthService) {
+              private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private depotController: DepotControllerService) {
     this.http = this.httpService;
   }
 
@@ -50,7 +60,26 @@ export class KaufComponent implements OnInit {
     this.router.navigateByUrl('/aktienübersicht/' + this.authService.getUid() + '/' + stock.symbol);
   }
 
-  test(value) {
-    console.log(value);
+  onBuy(element, i) {
+    const input = document.getElementById('input' + i);
+    const s = new Stock(element.name, element.symbol);
+
+    this.spinner.show();
+    // @ts-ignore
+    this.depotController.addPosition(this.authService.getUid(), s, input.value);
+    this.onBuyAwait(input);
+  }
+
+  onBuyAwait(input) {
+    this.animate = 'close';
+    if  (this.depotController.finishedLoading ===  true) {
+      input.value = '';
+      this.spinner.hide();
+      this.animate = 'open';
+      quickBuyModal('show');
+
+    } else {
+      setTimeout(() => this.onBuyAwait(input), 500);
+    }
   }
 }

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import { RegisterComponent } from './register/register.component';
 import {routing} from './app.routing';
@@ -26,6 +26,7 @@ import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     routing,
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     AngularFireDatabaseModule,
@@ -50,7 +52,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CommonModule,
     BrowserAnimationsModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    AngularFontAwesomeModule
   ],
   providers: [AuthService, ChartService, DepotControllerService, DatabaseService, HttpService],
   bootstrap: [AppComponent]

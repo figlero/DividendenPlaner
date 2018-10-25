@@ -5,12 +5,15 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {DepotControllerService} from './depot-controller.service';
 import {DatabaseService} from './database.service';
+import * as firebase from 'firebase';
+import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   state: any;
+  googleProvider;
 
   constructor(private fireauth: AngularFireAuth, private router: Router, private depotController: DepotControllerService,
               private databaseService: DatabaseService) {
@@ -26,6 +29,12 @@ export class AuthService {
 
   signInUser(user: User) {
     return this.fireauth.auth.signInWithEmailAndPassword(user.email, user.password);
+  }
+
+  signInGoogle() {
+    return this.fireauth.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider()
+    );
   }
 
   logOut()  {

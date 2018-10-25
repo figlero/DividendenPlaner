@@ -18,6 +18,10 @@ function buyModal(visible) {
   $('#buyModal').modal(visible);
 }
 
+function quickBuyModal(visible) {
+  $('#quickBuyModal').modal(visible);
+}
+
 function initTypeahead(values) {
 
   $('#symbolSearch').typeahead({

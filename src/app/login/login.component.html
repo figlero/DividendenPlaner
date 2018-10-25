@@ -15,6 +15,9 @@
   </div>
   <div class="text-center">
   <button type="submit" [disabled]="!loginForm.valid" style="margin-top: 1.5rem" class="btn btn-secondary btn-block">Login</button>
+    <a class="btn btn-block btn-social btn-google" (click)="loginGoogle()" style="color:white; margin-top: .5rem">
+      <span class="fa fa-google"></span> Sign in with Google
+    </a>
     <hr>
     <button type="button" routerLink="/register" style="margin-top: 0.5rem" class="btn btn-dark btn-block">Registrieren</button>
   </div>

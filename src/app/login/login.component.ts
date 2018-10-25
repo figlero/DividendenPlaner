@@ -28,6 +28,10 @@ export class LoginComponent implements OnInit {
     this.loginForm.reset();
   }
 
+  loginGoogle() {
+    this.authService.signInGoogle();
+  }
+
   onSubmit()  {
     const user = new User(this.loginForm.get('email').value, this.loginForm.get('password').value);
     const promise = this.authService.signInUser(user);
